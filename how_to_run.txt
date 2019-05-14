@@ -1,0 +1,8 @@
+How to train
+python train.py
+Note: Currently we only support for single-gpu training.
+---------------------------------------------------------------------------
+How to test
+This allows you to test the model on (1) COCOPersons val set and (2) OCHuman val & test set.
+
+python test.py --weights pose2seg_release.pkl --coco --OCHuman

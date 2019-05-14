@@ -70,8 +70,8 @@ def cluster(dataset = 'coco', cat_num = 3, vis_threshold = 0.4,
     # Note that (2) seems representing the backward of a person.
     
     if dataset == 'coco':
-        datainfos = CocoDatasetInfo('./data/coco2017/train2017',
-                                   './data/coco2017/annotations/person_keypoints_train2017_pose2seg.json',
+        datainfos = CocoDatasetInfo(r'\\fs01\Algo\ML\Datasets\Pose2Seg\data\coco2017\train2017',
+                                   r'\\fs01\Algo\ML\Datasets\Pose2Seg\data\coco2017\annotations/person_keypoints_train2017_pose2seg.json',
                                    loadimg=False)
         
         connections = [[16,14],[14,12],[17,15],[15,13],[12,13],

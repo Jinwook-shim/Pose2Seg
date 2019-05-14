@@ -5,17 +5,17 @@ from tqdm import tqdm
 from modeling.build_model import Pose2Seg
 from datasets.CocoDatasetInfo import CocoDatasetInfo, annToMask
 from pycocotools import mask as maskUtils
-
+# from pathlib import Path
 def test(model, dataset='cocoVal', logger=print):    
     if dataset == 'OCHumanVal':
-        ImageRoot = './data/OCHuman/images'
-        AnnoFile = './data/OCHuman/annotations/ochuman_coco_format_val_range_0.00_1.00.json'
+        ImageRoot = r'\\fs01\Algo\ML\Datasets\Pose2Seg\data\OCHuman\images'
+        AnnoFile = r'\\fs01\Algo\ML\Datasets\Pose2Seg\data\OCHuman\annotations\ochuman_coco_format_val_range_0.00_1.00.json'
     elif dataset == 'OCHumanTest':
-        ImageRoot = './data/OCHuman/images'
-        AnnoFile = './data/OCHuman/annotations/ochuman_coco_format_test_range_0.00_1.00.json'
+        ImageRoot = r'\\fs01\Algo\ML\Datasets\Pose2Seg\data\OCHuman\images'
+        AnnoFile = r'\\fs01\Algo\ML\Datasets\Pose2Seg\data\OCHuman\annotations\ochuman_coco_format_test_range_0.00_1.00.json'
     elif dataset == 'cocoVal':
-        ImageRoot = './data/coco2017/val2017'
-        AnnoFile = './data/coco2017/annotations/person_keypoints_val2017_pose2seg.json'
+        ImageRoot = r'\\fs01\Algo\ML\Datasets\Pose2Seg\data\coco2017\val2017'
+        AnnoFile = r'\\fs01\Algo\ML\Datasets\Pose2Seg\data\coco2017\annotations\person_keypoints_val2017_pose2seg.json'
     datainfos = CocoDatasetInfo(ImageRoot, AnnoFile, onlyperson=True, loadimg=True)
     
     model.eval()
