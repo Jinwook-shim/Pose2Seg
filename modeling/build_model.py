@@ -106,7 +106,7 @@ class Pose2Seg(nn.Module):
         else:
             inputs = np.array(inputs)
         
-        inputs = inputs[..., ::-1]
+        inputs = inputs[..., ::-1] #BGR to RGB
         inputs = inputs.transpose(0, 3, 1, 2)
         inputs = inputs.astype('float32')     
         

@@ -73,7 +73,7 @@ def adjust_learning_rate(optimizer, iteration, BASE_LR=1e-4,
 def draw_lr_schedule():
     from torch.nn import Parameter
     import matplotlib
-    matplotlib.use('Agg')
+    # matplotlib.use('Agg')
     import matplotlib.pyplot as plt
     
     param1 = Parameter(torch.zeros([3, 3, 256, 256], dtype=torch.float32))

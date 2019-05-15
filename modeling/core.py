@@ -261,5 +261,9 @@ def draw_skeleton(normed_kpts, h=200, w=200, vis_threshold=0, is_normed=True, re
     if returnimg:
         return img
     else:
+        fig = plt.figure()
         plt.imshow(img)
-        plt.show()
+        fig.savefig('C:\\Users\\erez\\Projects\\Pose2Seg\\demo.png', bbox_inches='tight')
+
+
+        # plt.show()

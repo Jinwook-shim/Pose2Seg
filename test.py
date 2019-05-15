@@ -22,7 +22,7 @@ def test(model, dataset='cocoVal', logger=print):
     
     results_segm = []
     imgIds = []
-    for i in tqdm(range(len(datainfos))):
+    for i in tqdm(range(3,len(datainfos))):
         rawdata = datainfos[i]
         img = rawdata['data']
         image_id = rawdata['id']
@@ -31,10 +31,22 @@ def test(model, dataset='cocoVal', logger=print):
         gt_kpts = np.float32(rawdata['gt_keypoints']).transpose(0, 2, 1) # (N, 17, 3)
         gt_segms = rawdata['segms']
         gt_masks = np.array([annToMask(segm, height, width) for segm in gt_segms])
-            
         output = model([img], [gt_kpts], [gt_masks])
-    
-        for mask in output[0]:
+
+        import matplotlib.pyplot as plt
+        img = img[..., ::-1]
+        plt.switch_backend("TkAgg")
+        plt.imshow(img)
+
+
+        # plt.imshow(output[0][0] == 1, alpha=0.3);
+        # fig.savefig('C:\\Users\\erez\\Projects\\Pose2Seg\\demo.png', bbox_inches='tight')
+        # plt.close()
+        MASKS = np.zeros(output[0][0].shape)
+        for id,mask in enumerate(output[0]):
+            from skimage.color import label2rgb
+            MASKS+=(id + 1) * mask
+
             maskencode = maskUtils.encode(np.asfortranarray(mask))
             maskencode['counts'] = maskencode['counts'].decode('ascii')
             results_segm.append({
@@ -44,7 +56,10 @@ def test(model, dataset='cocoVal', logger=print):
                     "segmentation": maskencode
                 })
         imgIds.append(image_id)
-    
+
+        image_label_overlay = label2rgb(MASKS, image=img, alpha=0.3, bg_label=0)
+        plt.imshow(image_label_overlay)
+        plt.show()
     
     def do_eval_coco(image_ids, coco, results, flag):
         from pycocotools.cocoeval import COCOeval
