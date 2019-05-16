@@ -1,7 +1,7 @@
 import argparse
 import numpy as np
 from tqdm import tqdm
-
+import matplotlib.pyplot as plt
 from modeling.build_model import Pose2Seg
 from datasets.CocoDatasetInfo import CocoDatasetInfo, annToMask
 from pycocotools import mask as maskUtils
@@ -33,20 +33,14 @@ def test(model, dataset='cocoVal', logger=print):
         gt_masks = np.array([annToMask(segm, height, width) for segm in gt_segms])
         output = model([img], [gt_kpts], [gt_masks])
 
-        import matplotlib.pyplot as plt
         img = img[..., ::-1]
         plt.switch_backend("TkAgg")
-        plt.imshow(img)
-
-
-        # plt.imshow(output[0][0] == 1, alpha=0.3);
         # fig.savefig('C:\\Users\\erez\\Projects\\Pose2Seg\\demo.png', bbox_inches='tight')
-        # plt.close()
+
         MASKS = np.zeros(output[0][0].shape)
         for id,mask in enumerate(output[0]):
             from skimage.color import label2rgb
             MASKS+=(id + 1) * mask
-
             maskencode = maskUtils.encode(np.asfortranarray(mask))
             maskencode['counts'] = maskencode['counts'].decode('ascii')
             results_segm.append({
