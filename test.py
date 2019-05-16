@@ -34,7 +34,10 @@ def test(model, dataset='cocoVal', logger=print):
         output = model([img], [gt_kpts], [gt_masks])
 
         img = img[..., ::-1]
-        plt.switch_backend("TkAgg")
+        # plt.switch_backend("TkAgg")
+        # plt.imshow(gt_masks[0,...])
+        # plt.show()
+
         # fig.savefig('C:\\Users\\erez\\Projects\\Pose2Seg\\demo.png', bbox_inches='tight')
 
         MASKS = np.zeros(output[0][0].shape)
