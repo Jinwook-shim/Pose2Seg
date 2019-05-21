@@ -53,9 +53,10 @@ def test(model, dataset='cocoVal', logger=print):
                     "segmentation": maskencode
                 })
         imgIds.append(image_id)
-
+        plt.switch_backend("TkAgg")
         image_label_overlay = label2rgb(MASKS, image=img, alpha=0.3, bg_label=0)
         plt.imshow(image_label_overlay)
+
         plt.show()
     
     def do_eval_coco(image_ids, coco, results, flag):
