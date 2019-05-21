@@ -145,7 +145,8 @@ class PoseAlign():
                 draw_skeleton(pose, h=500, w=500, 
                               vis_threshold=0, is_normed=True)
             
-        if visualize:
+        if visualize:# visualize:
+
             print ('===> after')
             draw_skeleton(translib.warpAffineKpts([kpt], best_dict['matrix'])[0], h=dstH, w=dstW, 
                           vis_threshold=0, is_normed=False)
@@ -153,7 +154,7 @@ class PoseAlign():
                 print ('===> use template')
                 draw_skeleton(best_dict['template'], h=500, w=500, 
                               vis_threshold=0, is_normed=True)
-
+        # print('done current skeleton')
         return best_dict
 
 def solve_affinematrix(src, dst, fullAffine=False):

@@ -65,7 +65,7 @@ class Pose2Seg(nn.Module):
         self._calcNetInputs()
         self._calcAlignMatrixs()        
         output = self._forward()        
-        # self.visualize(output)
+
         return output
     
     def _setInputs(self, batchimgs, batchkpts, batchmasks=None):
@@ -196,15 +196,22 @@ class Pose2Seg(nn.Module):
         
         if self.training:
             loss = self._calcLoss(netOutput)
+            netOutput = F.softmax(netOutput, 1)
+            netOutput = netOutput.detach().data.cpu().numpy()
+            output = self._getMaskOutput(netOutput)
+
+            # if self.visCount < 0:
+            self._visualizeOutput(netOutput)
+
             return loss
         else:
             netOutput = F.softmax(netOutput, 1)
             netOutput = netOutput.detach().data.cpu().numpy()
             output = self._getMaskOutput(netOutput)
             
-            if self.visCount < 0:
-                self._visualizeOutput(netOutput)
-                self.visCount += 1
+            # if self.visCount < 0:
+            self._visualizeOutput(netOutput)
+            self.visCount += 1
             
             return output 
         
@@ -239,14 +246,15 @@ class Pose2Seg(nn.Module):
                 pred_e2e = pred_e2e[:, :, 1]
                 pred_e2e[pred_e2e>0.5] = 1
                 pred_e2e[pred_e2e<=0.5] = 0
-                mask = pred_e2e.astype(np.uint8) 
-                MaskOutput[i].append(mask)                
+                mask = pred_e2e.astype(np.uint8)
+                MaskOutput[i].append(mask)
                 
                 idx += 1
         return MaskOutput
     
     def _visualizeOutput(self, netOutput):
-        outdir = './vis/'
+        import os
+        outdir = os.getcwd() + '\\out\\'
         netOutput = netOutput.transpose(0, 2, 3, 1)        
         MaskOutput = [[] for _ in range(self.bz)]
         

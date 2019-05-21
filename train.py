@@ -14,7 +14,7 @@ from lib.logger import colorlogger
 from lib.timer import Timers
 from lib.averageMeter import AverageMeters
 from lib.torch_utils import adjust_learning_rate
-
+import os
 from modeling.build_model import Pose2Seg
 from datasets.CocoDatasetInfo import CocoDatasetInfo, annToMask
 from test import test
@@ -23,9 +23,9 @@ NAME = "release_base"
 
 # Set `LOG_DIR` and `SNAPSHOT_DIR`
 def setup_logdir():
-    timestamp = time.strftime("%Y-%m-%d_%H:%M:%S", time.localtime()) 
-    LOGDIR = os.path.join('logs', '%s_%s'%(NAME, timestamp))
-    SNAPSHOTDIR = os.path.join('snapshot', '%s_%s'%(NAME, timestamp))
+    timestamp = time.strftime("%Y-%m-%d_%H_%M_%S", time.localtime())
+    LOGDIR = os.path.join(os.getcwd(),'logs', '%s_%s'%(NAME, timestamp))
+    SNAPSHOTDIR = os.path.join(os.getcwd(),'snapshot', '%s_%s'%(NAME, timestamp))
     if not os.path.exists(LOGDIR):
         os.makedirs(LOGDIR)
     if not os.path.exists(SNAPSHOTDIR):
@@ -125,8 +125,8 @@ if __name__=='__main__':
     
     logger.info('===========> loading data <===========')
     datasetTrain = Dataset()
-    dataloaderTrain = torch.utils.data.DataLoader(datasetTrain, batch_size=4, shuffle=True,
-                                                   num_workers=4, pin_memory=False,
+    dataloaderTrain = torch.utils.data.DataLoader(datasetTrain, batch_size=1, shuffle=True,
+                                                   num_workers=0, pin_memory=False,
                                                    collate_fn=datasetTrain.collate_fn)
 
 
